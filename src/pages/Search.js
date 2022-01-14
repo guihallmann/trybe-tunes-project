@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 import Header from '../components.js/Header';
+import Loading from '../components.js/Loading';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
 class Search extends Component {
   constructor() {
     super();
     this.state = ({
-      songName: '',
+      artist: '',
+      artistSearch: '',
       searchBtnDisabled: true,
       loadingStatus: false,
       shouldRedirect: false,
+      albumList: [],
+      notFoundStatus: false,
     });
 
     this.onInputChange = this.onInputChange.bind(this);
-    // this.onSearchClick = this.onSearchClick.bind(this);
+    this.onSearchClick = this.onSearchClick.bind(this);
     this.songValidation = this.songValidation.bind(this);
   }
 
@@ -23,17 +28,24 @@ class Search extends Component {
     }, this.songValidation);
   }
 
-  onSearchClick() {
-    const { songName } = this.state;
-    this.setState({
-      loadingStatus: true,
+  onSearchClick(event) {
+    event.preventDefault();
+    const { artist } = this.state;
+    this.setState({ loadingStatus: true });
+    searchAlbumsAPI(artist).then((info) => {
+      this.setState({
+        albumList: [...info],
+        artistSearch: artist,
+        artist: '',
+        notFoundStatus: info.length === 0,
+      });
     });
   }
 
   songValidation() {
     const SONG_MIN_SIZE = 2;
-    const { songName } = this.state;
-    if (songName.length >= SONG_MIN_SIZE) {
+    const { artist } = this.state;
+    if (artist.length >= SONG_MIN_SIZE) {
       this.setState({ searchBtnDisabled: false });
     } else {
       this.setState({ searchBtnDisabled: true });
@@ -41,7 +53,14 @@ class Search extends Component {
   }
 
   render() {
-    const { songName, searchBtnDisabled, loadingStatus, shouldRedirect } = this.state;
+    const {
+      albumList,
+      artist,
+      artistSearch,
+      searchBtnDisabled,
+      loadingStatus,
+      shouldRedirect,
+      notFoundStatus } = this.state;
     return (
       <div>
         <Header />
@@ -49,9 +68,9 @@ class Search extends Component {
           <input
             type="text"
             id="search-artist-input"
-            name="songName"
+            name="artist"
             data-testid="search-artist-input"
-            value={ songName }
+            value={ artist }
             onChange={ this.onInputChange }
           />
           <button
@@ -63,6 +82,15 @@ class Search extends Component {
             Pesquisar
           </button>
         </form>
+        {notFoundStatus && <h2>Nenhum álbum encontrado</h2>}
+        {albumList.length >= 1 && (
+          <div>
+            <h2>
+              Resultado de álbuns de:
+              { artistSearch }
+            </h2>
+          </div>
+        )}
       </div>
     );
   }
