@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components.js/Header';
 import Loading from '../components.js/Loading';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
@@ -10,8 +11,8 @@ class Search extends Component {
       artist: '',
       artistSearch: '',
       searchBtnDisabled: true,
-      loadingStatus: false,
-      shouldRedirect: false,
+      // loadingStatus: false,
+      // shouldRedirect: false,
       albumList: [],
       notFoundStatus: false,
     });
@@ -31,7 +32,7 @@ class Search extends Component {
   onSearchClick(event) {
     event.preventDefault();
     const { artist } = this.state;
-    this.setState({ loadingStatus: true });
+    // this.setState({ loadingStatus: true });
     searchAlbumsAPI(artist).then((info) => {
       this.setState({
         albumList: [...info],
@@ -58,8 +59,7 @@ class Search extends Component {
       artist,
       artistSearch,
       searchBtnDisabled,
-      loadingStatus,
-      shouldRedirect,
+      // loadingStatus,
       notFoundStatus } = this.state;
     return (
       <div>
@@ -82,13 +82,29 @@ class Search extends Component {
             Pesquisar
           </button>
         </form>
-        {notFoundStatus && <h2>Nenhum álbum encontrado</h2>}
+        {notFoundStatus && <h2>Nenhum álbum foi encontrado</h2>}
         {albumList.length >= 1 && (
           <div>
-            <h2>
+            <h1>
               Resultado de álbuns de:
+              { ' '}
               { artistSearch }
-            </h2>
+            </h1>
+            {albumList.map((album) => (
+              <div key={ album.collectionId }>
+                <h2 key={ album.collectionId }>{ album.collectionName }</h2>
+                <h3 key={ album.artistName }>
+                  { album.artistName }
+                </h3>
+                <img src={ album.artworkUrl100 } alt={ `${album.collectionName}` } />
+                <Link
+                  data-testid={ `link-to-album-${album.collectionId}` }
+                  to={ `album/${album.collectionId}` }
+                >
+                  Album page
+                </Link>
+              </div>
+            ))}
           </div>
         )}
       </div>
