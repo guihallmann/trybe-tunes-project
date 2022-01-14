@@ -25,13 +25,13 @@ class Header extends Component {
       <div>
         <header data-testid="header-component">
           <h1> Trybe Tunes</h1>
-          { logUser ? <p data-testid="header-user-name"> { logUser } </p> : <Loading /> }
+          { logUser ? <p data-testid="header-user-name">{ logUser }</p> : <Loading /> }
+          <nav>
+            <Link data-testid="link-to-search" to="/search"> Pesquisar</Link>
+            <Link data-testid="link-to-favorites" to="/favorites"> Favoritos</Link>
+            <Link data-testid="link-to-profile" to="/profile"> Perfil </Link>
+          </nav>
         </header>
-        <nav>
-          <Link data-testid="link-to-search" to="/search"> Pesquisar</Link>
-          <Link data-testid="link-to-favorites" to="/favorites"> Favoritos</Link>
-          <Link data-testid="link-to-profile" to="/profile"> Perfil </Link>
-        </nav>
       </div>
     );
   }
