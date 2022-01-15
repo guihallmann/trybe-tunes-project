@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import propTypes from 'prop-types';
+import propTypes, { string } from 'prop-types';
 import Header from '../components.js/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components.js/MusicCard';
@@ -54,7 +54,12 @@ class Album extends Component {
     );
   }
 }
-Album.propTypes = {
 
+// Dica do Ruy de como fazer o propTypes com shape
+
+Album.propTypes = {
+  match: propTypes.shape({
+    params: propTypes.objectOf(string),
+  }).isRequired,
 };
 export default Album;
