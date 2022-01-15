@@ -4,7 +4,9 @@ import Header from '../components.js/Header';
 class Favorites extends Component {
   render() {
     return (
-      <Header />
+      <div data-testid="page-favorites">
+        <Header />
+      </div>
     );
   }
 }

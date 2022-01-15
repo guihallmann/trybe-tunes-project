@@ -33,7 +33,7 @@ class Album extends Component {
   render() {
     const { albumSongs, albumName, bandName, albumCover } = this.state;
     return (
-      <>
+      <div data-testid="page-album">
         <Header />
         <div>
           <h2 data-testid="artist-name">{ bandName}</h2>
@@ -50,7 +50,7 @@ class Album extends Component {
             ))}
           </div>
         </div>
-      </>
+      </div>
     );
   }
 }

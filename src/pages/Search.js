@@ -62,7 +62,7 @@ class Search extends Component {
       // loadingStatus,
       notFoundStatus } = this.state;
     return (
-      <div>
+      <div data-testid="page-search">
         <Header />
         <form>
           <input

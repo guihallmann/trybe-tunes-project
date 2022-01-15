@@ -4,7 +4,9 @@ import Header from '../components.js/Header';
 class Profile extends Component {
   render() {
     return (
-      <Header />
+      <div data-testid="page-profile">
+        <Header />
+      </div>
     );
   }
 }
