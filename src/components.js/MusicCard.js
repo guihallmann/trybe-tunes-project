@@ -8,8 +8,16 @@ class MusicCard extends Component {
     super();
     this.state = {
       loadingStatus: false,
+      favsList: [],
+      isFavorite: false,
     };
     this.handleCheck = this.handleCheck.bind(this);
+    this.getFavorites = this.getFavorites.bind(this);
+    this.checkFavorites = this.checkFavorites.bind(this);
+  }
+
+  componentDidMount() {
+    this.getFavorites();
   }
 
   handleCheck() {
@@ -20,14 +28,31 @@ class MusicCard extends Component {
     (addSong(this.props).then(() => {
       this.setState({
         loadingStatus: false,
+        isFavorite: true,
       });
     }));
     getFavoriteSongs().then((info) => console.log(info));
   }
 
+  getFavorites = async () => {
+    const favs = await getFavoriteSongs();
+    this.setState({
+      favsList: favs,
+    }, this.checkFavorites);
+  }
+
+  checkFavorites() {
+    const { trackId } = this.props;
+    const { favsList } = this.state;
+    const favCheck = favsList.some((song) => song.trackId === trackId);
+    this.setState({
+      isFavorite: favCheck,
+    });
+  }
+
   render() {
     const { trackId, trackName, trackPreview } = this.props;
-    const { loadingStatus } = this.state;
+    const { loadingStatus, isFavorite } = this.state;
     return (
       <div key={ trackId }>
         <span key={ trackId }>{ trackName }</span>
@@ -45,6 +70,7 @@ class MusicCard extends Component {
             data-testid={ `checkbox-music-${trackId}` }
             value={ trackName }
             onChange={ this.handleCheck }
+            checked={ isFavorite }
           />
         </label>
         { loadingStatus && <Loading />}

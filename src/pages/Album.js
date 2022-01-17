@@ -19,7 +19,6 @@ class Album extends Component {
   componentDidMount() {
     // console.log(this.props);
     const { match: { params: { id } } } = this.props;
-    console.log(this.props);
     getMusics(id).then((info) => {
       // console.log(info);
       const { artworkUrl100, artistName, collectionName } = info[0];
@@ -31,7 +30,6 @@ class Album extends Component {
         albumCover: artworkUrl100,
       });
     });
-    // getFavoriteSongs().then((info) => console.log(info));
   }
 
   render() {
