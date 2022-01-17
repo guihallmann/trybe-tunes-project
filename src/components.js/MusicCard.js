@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class MusicCard extends Component {
@@ -12,16 +12,17 @@ class MusicCard extends Component {
     this.handleCheck = this.handleCheck.bind(this);
   }
 
-  handleCheck({ target }) {
-    const { value } = target;
+  handleCheck() {
+    // const { value } = target;
     this.setState({
       loadingStatus: true,
     });
-    (addSong(value).then(() => {
+    (addSong(this.props).then(() => {
       this.setState({
         loadingStatus: false,
       });
     }));
+    getFavoriteSongs().then((info) => console.log(info));
   }
 
   render() {

@@ -3,6 +3,7 @@ import propTypes, { string } from 'prop-types';
 import Header from '../components.js/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components.js/MusicCard';
+// import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends Component {
   constructor() {
@@ -18,7 +19,9 @@ class Album extends Component {
   componentDidMount() {
     // console.log(this.props);
     const { match: { params: { id } } } = this.props;
+    console.log(this.props);
     getMusics(id).then((info) => {
+      // console.log(info);
       const { artworkUrl100, artistName, collectionName } = info[0];
       const songsList = info.filter((song) => song.kind === 'song');
       this.setState({
@@ -28,6 +31,7 @@ class Album extends Component {
         albumCover: artworkUrl100,
       });
     });
+    // getFavoriteSongs().then((info) => console.log(info));
   }
 
   render() {
