@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
-import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class MusicCard extends Component {
@@ -20,19 +20,31 @@ class MusicCard extends Component {
     this.getFavorites();
   }
 
-  handleCheck() {
-    // const { value } = target;
+  handleCheck({ target }) {
     this.setState({
       loadingStatus: true,
     });
-    (addSong(this.props).then(() => {
-      this.setState({
-        loadingStatus: false,
-        isFavorite: true,
-      });
-    }));
-    getFavoriteSongs().then((info) => console.log(info));
+    if (target.checked) {
+      (addSong(this.props).then(() => {
+        this.setState({
+          loadingStatus: false,
+          isFavorite: true,
+        });
+      }));
+      getFavoriteSongs().then((info) => console.log(info));
+    } else {
+      (removeSong(this.props).then(() => {
+        this.setState({
+          loadingStatus: false,
+          isFavorite: false,
+        });
+      }));
+    }
   }
+
+  // As funções getFavorites e checkFavorites, relacionadas ao requisito 9,
+  // fiz a partir da dúvida do Iago Medeiros e respostas do Matheus Ferreira
+  // nessa thread do slack: https://trybecourse.slack.com/archives/C02EZT1EJSY/p1642425709246000
 
   getFavorites = async () => {
     const favs = await getFavoriteSongs();
