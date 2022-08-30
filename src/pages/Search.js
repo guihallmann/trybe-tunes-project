@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Header from '../components.js/Header';
 // import Loading from '../components.js/Loading';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import '../styles/search.css';
 
 class Search extends Component {
   constructor() {
@@ -34,6 +35,7 @@ class Search extends Component {
     const { artist } = this.state;
     // this.setState({ loadingStatus: true });
     searchAlbumsAPI(artist).then((info) => {
+      console.log(info);
       this.setState({
         albumList: [...info],
         artistSearch: artist,

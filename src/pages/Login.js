@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import Loading from '../components.js/Loading';
 import { createUser } from '../services/userAPI';
+import '../styles/login.css';
 
 class Login extends Component {
   constructor() {
@@ -56,8 +57,8 @@ class Login extends Component {
       return <Loading />;
     }
     return (
-      <div data-testid="page-login">
-        <form>
+      <div data-testid="page-login" className="login-page">
+        <form className="form">
           <h1>Login</h1>
           <input
             type="text"
@@ -65,10 +66,12 @@ class Login extends Component {
             name="loginName"
             data-testid="login-name-input"
             value={ loginName }
+            placeholder="Nome"
             onChange={ this.onInputChange }
           />
           <button
             type="submit"
+            id="login-submit-button"
             data-testid="login-submit-button"
             disabled={ loginBtnDisable }
             onClick={ this.onLoginClick }

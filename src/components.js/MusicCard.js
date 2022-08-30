@@ -31,7 +31,7 @@ class MusicCard extends Component {
           isFavorite: true,
         });
       }));
-      getFavoriteSongs().then((info) => console.log(info));
+      // getFavoriteSongs().then((info) => console.log(info));
     } else {
       (removeSong(this.props).then(() => {
         this.setState({

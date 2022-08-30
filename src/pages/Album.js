@@ -20,7 +20,7 @@ class Album extends Component {
     // console.log(this.props);
     const { match: { params: { id } } } = this.props;
     getMusics(id).then((info) => {
-      // console.log(info);
+      console.log(info);
       const { artworkUrl100, artistName, collectionName } = info[0];
       const songsList = info.filter((song) => song.kind === 'song');
       this.setState({
